@@ -1,114 +1,129 @@
 <script setup>
-// Iteration 1: Statischer Content
+import { ref } from 'vue';
+
+const showBanner = ref(true);
+
+function closeBanner() {
+    showBanner.value = false;
+}
 </script>
 
 <template>
-  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <!-- Special Banner -->
+  <div id="specialbanner" class="text-center py-2 text-white" style="background-color: #1eb8cc;" v-if="showBanner">
+    Neu: Premium-Mitgliedschaft für vertiefte Bewerber-Tipps!&nbsp;&nbsp;
+    <button type="button" class="btn btn-dark btn-sm" @click="closeBanner">Verstanden!</button>
+  </div>
 
-  <header class="site-header" id="top">
-    <div class="container header-inner">
-      <a class="brand" href="#top" aria-label="Zur Startseite">
-        <img class="brand-logo" src="/internship-finder-logo.png" alt="Internship Finder" />
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="/internship-finder-logo.png" alt="Internship Finder Logo" height="55">
       </a>
 
-      <form class="header-search" role="search" aria-label="Suche">
-        <label class="sr-only" for="q">Suche</label>
-        <input id="q" name="q" type="search" placeholder="search" autocomplete="off" />
+      <!-- Suchfeld in der Mitte (desktop only) -->
+      <form class="d-none d-lg-flex mx-auto" style="width: 40%;" role="search">
+        <input class="form-control search-pill" type="search" placeholder="search" aria-label="Suche">
       </form>
 
-      <div class="header-actions" aria-label="Account">
-        <a class="btn btn-soft" href="#signup">Sign up</a>
-        <a class="btn btn-soft" href="#login">Login</a>
-      </div>
-
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav">
-        <span class="nav-toggle-lines" aria-hidden="true"></span>
-        <span class="sr-only">Menü öffnen</span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
       </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Sign up</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile Navigation">
-      <a href="#top">Home</a>
-      <a href="#unternehmen">Unternehmen</a>
-      <a href="#kontakt">Kontakt</a>
-      <a href="#datenschutz">Datenschutz</a>
-      <a href="#impressum">Impressum</a>
-    </nav>
-  </header>
+  <!-- Hero -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <!-- Linke Seite: Titel + Filter -->
+        <div class="col-lg-6">
+          <h1 class="brand-font fw-bold mb-2">Finde dein perfektes Praktikum</h1>
+          <p class="mb-4 text-secondary">Teile und entdecke Praktika von Studierenden für Studierende.</p>
 
-  <main id="content">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <h1 class="hero-title">Finde dein perfektes Praktikum</h1>
-          <p class="hero-subtitle">Teile und entdecke Praktika von Studierenden für Studierende.</p>
-
-          <form class="filters" aria-label="Filter">
-            <label class="field">
-              <span class="sr-only">Ort eingeben</span>
-              <input type="text" placeholder="Ort eingeben" />
-            </label>
-            <label class="field field-select">
-              <span class="sr-only">Bereich wählen</span>
-              <select>
+          <!-- Filter (Ort + Bereich) -->
+          <div class="row g-2 mb-3">
+            <div class="col-sm-6">
+              <input type="text" class="form-control" placeholder="Ort eingeben">
+            </div>
+            <div class="col-sm-6">
+              <select class="form-select">
                 <option selected disabled>Bereich Wählen</option>
                 <option>Softwareentwicklung</option>
                 <option>Systemengineering</option>
-                <option>Enterprise Architect</option>
                 <option>Data Analyst</option>
+                <option>Cyber Security</option>
               </select>
-            </label>
-          </form>
+            </div>
+          </div>
 
-          <a class="btn btn-home" href="#top" aria-label="Home">
-            <span aria-hidden="true">⌂</span>
-            Home
+          <a href="#" class="btn btn-accent">
+            <i class="bi bi-house-door me-1"></i>Home
           </a>
         </div>
 
-        <div class="hero-media" aria-label="Hero Bild">
-          <img class="hero-image" src="/hero.jpg" alt="Person mit rotem Rucksack blickt in den Himmel." />
+        <!-- Rechte Seite: Hero-Bild -->
+        <div class="col-lg-6">
+          <img src="/hero.jpg" alt="Studentin mit Rucksack blickt in den Himmel" class="hero-image">
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="unternehmen" class="section">
-      <div class="container">
-        <div class="cards-grid" aria-label="Unternehmen">
-          <article class="company-card">
-            <h2 class="company-title">Konzept Informationssysteme GmbH</h2>
-            <div class="company-media">
-              <img src="/konzept.png" alt="Konzept Logo" loading="lazy" />
+  <!-- Praktikum Grid -->
+  <section class="py-4">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Card 1 -->
+        <div class="col-md-6">
+          <div class="card card-internship h-100 p-3">
+            <h5 class="card-title fw-bold mb-3">Konzept Informationssysteme GmbH</h5>
+            <div class="card-logo-area mb-3">
+              <img src="/konzept.png" alt="Konzept Logo">
             </div>
-            <p class="company-text">
+            <p class="card-text text-secondary">
               IT-Dienstleister für individuelle Software, Prozessdigitalisierung und IT-Beratung.
             </p>
-            <a class="btn btn-primary" href="#signup">Registriere für mehr</a>
-          </article>
+            <a href="#" class="btn btn-accent mt-auto align-self-start">Registriere für mehr</a>
+          </div>
+        </div>
 
-          <article class="company-card">
-            <h2 class="company-title">Advantest Europe GmbH</h2>
-            <div class="company-media">
-              <img src="/advantest.png" alt="Advantest Logo" loading="lazy" />
+        <!-- Card 2 -->
+        <div class="col-md-6">
+          <div class="card card-internship h-100 p-3">
+            <h5 class="card-title fw-bold mb-3">Advantest Europe GmbH</h5>
+            <div class="card-logo-area mb-3">
+              <img src="/advantest.png" alt="Advantest Logo">
             </div>
-            <p class="company-text">
-              Anbieter von Testsystemen für Halbleiter, Fokus auf Qualität, Automatisierung und Innovation.
+            <p class="card-text text-secondary">
+              Anbieter von Testsystemen für Halbleiter. Fokus auf Qualität, Automatisierung und Innovation.
             </p>
-            <a class="btn btn-primary" href="#signup">Registriere für mehr</a>
-          </article>
+            <a href="#" class="btn btn-accent mt-auto align-self-start">Registriere für mehr</a>
+          </div>
         </div>
       </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <nav class="footer-links" aria-label="Footer">
-        <a id="kontakt" href="#kontakt">Kontakt</a>
-        <a id="datenschutz" href="#datenschutz">Datenschutz</a>
-        <a id="impressum" href="#impressum">Impressum</a>
-      </nav>
-      <p class="footer-copy">© 2025 Internship Finder</p>
     </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-4 mt-4">
+    <nav class="mb-2">
+      <a href="#" class="footer-link mx-2">Kontakt</a>
+      <span aria-hidden="true">|</span>
+      <a href="#" class="footer-link mx-2">Datenschutz</a>
+      <span aria-hidden="true">|</span>
+      <a href="#" class="footer-link mx-2">Impressum</a>
+    </nav>
+    <p class="text-secondary mb-0">&copy; 2025 Internship Finder</p>
   </footer>
 </template>
+
+<style scoped></style>
