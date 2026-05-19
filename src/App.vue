@@ -1,10 +1,19 @@
 <script setup>
 import { ref } from 'vue';
+import { internships } from './data.js';
 
 const showBanner = ref(true);
 
 function closeBanner() {
     showBanner.value = false;
+}
+
+function getInternships() {
+    return internships;
+}
+
+function showAlert(description) {
+    alert(description);
 }
 </script>
 
@@ -78,40 +87,27 @@ function closeBanner() {
     </div>
   </section>
 
-  <!-- Praktikum Grid -->
-  <section class="py-4">
-    <div class="container">
-      <div class="row g-4">
-        <!-- Card 1 -->
-        <div class="col-md-6">
-          <div class="card card-internship h-100 p-3">
-            <h5 class="card-title fw-bold mb-3">Konzept Informationssysteme GmbH</h5>
-            <div class="card-logo-area mb-3">
-              <img src="/konzept.png" alt="Konzept Logo">
-            </div>
-            <p class="card-text text-secondary">
-              IT-Dienstleister für individuelle Software, Prozessdigitalisierung und IT-Beratung.
-            </p>
-            <a href="#" class="btn btn-accent mt-auto align-self-start">Registriere für mehr</a>
+ <!-- Praktikum Grid -->
+<section class="py-4">
+  <div class="container">
+    <div class="row g-4">
+      <div v-for="internship in getInternships()" :key="internship.id" class="col-md-6">
+        <div class="card card-internship h-100 p-3">
+          <h5 class="card-title fw-bold mb-1">{{ internship.title }}</h5>
+          <p class="text-secondary mb-3 small">{{ internship.company }} · {{ internship.location }}</p>
+          <div class="card-logo-area mb-3">
+            <img :src="internship.logoUrl" :alt="internship.company + ' Logo'">
           </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="col-md-6">
-          <div class="card card-internship h-100 p-3">
-            <h5 class="card-title fw-bold mb-3">Advantest Europe GmbH</h5>
-            <div class="card-logo-area mb-3">
-              <img src="/advantest.png" alt="Advantest Logo">
-            </div>
-            <p class="card-text text-secondary">
-              Anbieter von Testsystemen für Halbleiter. Fokus auf Qualität, Automatisierung und Innovation.
-            </p>
-            <a href="#" class="btn btn-accent mt-auto align-self-start">Registriere für mehr</a>
-          </div>
+          <p class="card-text text-secondary">{{ internship.description }}</p>
+          <a class="btn btn-accent mt-auto align-self-start" @click.prevent="showAlert(internship.description)">
+            Details
+          </a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+        
 
   <!-- Footer -->
   <footer class="text-center py-4 mt-4">
