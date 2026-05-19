@@ -13,22 +13,3 @@ const buttonClass = `btn btn-${props.variant}`;
     <slot />
   </button>
 </template>
-
-<style scoped>
-.btn {
-  border-radius: 30px;
-}
-
-.btn-accent {
-  background-color: #1eb8cc;
-  color: white;
-  border-radius: 30px;
-  padding: 0.5rem 1.5rem;
-  transition: 0.3s;
-}
-
-.btn-accent:hover {
-  background-color: #1aa0b3;
-  color: #fff;
-}
-</style>

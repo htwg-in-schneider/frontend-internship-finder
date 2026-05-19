@@ -4,9 +4,9 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="/internship-finder-logo.png" alt="Internship Finder Logo" height="55">
-            </a>
+           <router-link class="navbar-brand" to="/">
+            <img src="/internship-finder-logo.png" alt="Internship Finder Logo" height="55">
+            </router-link>
 
             <!-- Suchfeld in der Mitte (desktop only) -->
             <form class="d-none d-lg-flex mx-auto" style="width: 40%;" role="search">

@@ -1,5 +1,5 @@
 <script setup>
-import Button from '@/components/Button.vue';
+import NavButton from '@/components/NavButton.vue';
 
 defineProps({
     internship: {
@@ -7,10 +7,6 @@ defineProps({
         required: true,
     }
 });
-
-function showAlert(description) {
-    alert(description);
-}
 </script>
 
 <template>
@@ -21,11 +17,10 @@ function showAlert(description) {
             <img :src="internship.logoUrl" :alt="internship.company + ' Logo'">
         </div>
         <p class="card-text text-secondary">{{ internship.description }}</p>
-        <Button variant="accent" class="mt-auto align-self-start" :onClick="() => showAlert(internship.description)">
+        <NavButton variant="accent" class="mt-auto align-self-start" :to="`/internship/${internship.id}`">
             Details
-        </Button>
+        </NavButton>
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
