@@ -8,19 +8,6 @@ body {
   color: #1eb8cc;
 }
 
-.btn-accent {
-  background-color: #1eb8cc;
-  color: white;
-  border-radius: 30px;
-  padding: 0.5rem 1.5rem;
-  transition: 0.3s;
-}
-
-.btn-accent:hover {
-  background-color: #1aa0b3;
-  color: #fff;
-}
-
 .brand-font {
   font-family: 'Goldman', sans-serif;
   letter-spacing: 0.5px;

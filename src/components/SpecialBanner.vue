@@ -1,4 +1,5 @@
 <script setup>
+import Button from '@/components/Button.vue';
 import { ref } from 'vue';
 
 defineProps({
@@ -18,7 +19,7 @@ function closeBanner() {
 <template>
     <div id="specialbanner" class="text-center py-2 text-white" v-if="showBanner">
         {{ text }}&nbsp;&nbsp;
-        <button type="button" class="btn btn-dark btn-sm" @click="closeBanner">Verstanden!</button>
+        <Button variant="dark" :onClick="closeBanner">Verstanden!</Button>
     </div>
 </template>
 

@@ -1,26 +1,18 @@
+<script setup>
+import FooterLink from './FooterLink.vue';
+</script>
+
 <template>
     <footer class="text-center py-4 mt-4">
         <nav class="mb-2">
-            <a href="#" class="footer-link mx-2" aria-label="Kontakt">Kontakt</a>
+            <FooterLink text="Kontakt" label="Kontakt" href="#" />
             <span aria-hidden="true">|</span>
-            <a href="#" class="footer-link mx-2" aria-label="Datenschutz">Datenschutz</a>
+            <FooterLink text="Datenschutz" label="Datenschutz" href="#" />
             <span aria-hidden="true">|</span>
-            <a href="#" class="footer-link mx-2" aria-label="Impressum">Impressum</a>
+            <FooterLink text="Impressum" label="Impressum" href="#" />
         </nav>
         <p class="text-secondary mb-0">&copy; 2025 Internship Finder</p>
     </footer>
 </template>
 
-<script setup>
-</script>
-
-<style scoped>
-.footer-link {
-    color: #555;
-    text-decoration: none;
-}
-
-.footer-link:hover {
-    color: #1eb8cc;
-}
-</style>
+<style scoped></style>
