@@ -8,7 +8,7 @@ import Button from '@/components/Button.vue';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
-const url = 'https://dummyjson.com/products';
+const url = 'http://localhost:8081/api/internship';
 const route = useRoute();
 const internship = ref(null);
 onMounted(async () => fetchInternship());
@@ -19,19 +19,7 @@ async function fetchInternship() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const dummyproduct = await response.json();
-    // dummyjson-Struktur an unsere Internship-Struktur anpassen
-    internship.value = {
-      id: dummyproduct.id,
-      title: dummyproduct.title,
-      description: dummyproduct.description,
-      company: dummyproduct.brand || 'Beispiel GmbH',
-      location: 'Konstanz',
-      category: dummyproduct.category,
-      salary: dummyproduct.price,
-      duration: 6,
-      logoUrl: dummyproduct.thumbnail,
-    };
+    internship.value = await response.json();
     console.log(internship.value);
   } catch (error) {
     console.error('Error fetching internship:', error);

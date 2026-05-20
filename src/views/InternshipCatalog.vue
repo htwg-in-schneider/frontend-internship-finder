@@ -5,7 +5,7 @@ import Footer from '@/components/Footer.vue';
 import InternshipCard from '@/components/InternshipCard.vue';
 import { ref, onMounted } from 'vue';
 
-const url = 'https://dummyjson.com/products';
+const url = 'http://localhost:8081/api/internship';
 
 const internships = ref([]);
 onMounted(async () => fetchInternships());
@@ -16,20 +16,7 @@ async function fetchInternships() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const dummyproducts = await response.json();
-    // dummyjson liefert Produkte, die wir an unsere Internship-Struktur anpassen.
-    // (Nur temporär in 8a - in 8b kommen echte Praktika vom eigenen Backend)
-    internships.value = dummyproducts.products.map(dummyproduct => ({
-      id: dummyproduct.id,
-      title: dummyproduct.title,
-      description: dummyproduct.description,
-      company: dummyproduct.brand || 'Beispiel GmbH',
-      location: 'Konstanz',
-      category: dummyproduct.category,
-      salary: dummyproduct.price,
-      duration: 6,
-      logoUrl: dummyproduct.thumbnail,
-    }));
+    internships.value = await response.json();
     console.log(internships.value);
   } catch (error) {
     console.error('Error fetching internships:', error);
