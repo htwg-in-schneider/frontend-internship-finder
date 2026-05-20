@@ -2,19 +2,33 @@
 </script>
 
 <template>
-    <nav class="navbar navbar-custom sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
             <router-link class="navbar-brand" to="/">
                 <img src="/internship-finder-logo.png" alt="Internship Finder Logo" height="55">
             </router-link>
 
-            <!-- Suchfeld in der Mitte (ab medium screens sichtbar) -->
-            <form class="d-none d-md-flex mx-auto" style="width: 40%;" role="search">
-                <input class="form-control search-pill" type="search" placeholder="search" aria-label="Suche">
-            </form>
+            <!-- Bereich-Navigation (10b) -->
+            <ul class="navbar-nav flex-row flex-wrap gap-2 me-auto ms-3">
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ path: '/' }">Alle</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ path: '/', query: { category: 'SOFTWARE_DEVELOPMENT' } }">Softwareentwicklung</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ path: '/', query: { category: 'SYSTEM_ENGINEERING' } }">Systemengineering</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ path: '/', query: { category: 'DATA_ANALYST' } }">Data Analyst</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ path: '/', query: { category: 'CYBER_SECURITY' } }">Cyber Security</router-link>
+                </li>
+            </ul>
 
             <!-- Profil-Dropdown - immer sichtbar -->
-            <div class="dropdown ms-auto">
+            <div class="dropdown">
                 <a class="d-flex align-items-center text-decoration-none" href="#" id="profileDropdown"
                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="profile-avatar">
