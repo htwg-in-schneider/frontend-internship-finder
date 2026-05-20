@@ -17,9 +17,14 @@ defineProps({
             <img :src="internship.logoUrl" :alt="internship.company + ' Logo'">
         </div>
         <p class="card-text text-secondary">{{ internship.description }}</p>
-        <NavButton variant="accent" class="mt-auto align-self-start" :to="`/internship/${internship.id}`">
-            Details
-        </NavButton>
+        <div class="mt-auto d-flex gap-2">
+            <NavButton variant="accent" :to="`/internship/view/${internship.id}`">
+                Details
+            </NavButton>
+            <NavButton variant="secondary" :to="`/internship/edit/${internship.id}`">
+                Bearbeiten
+            </NavButton>
+        </div>
     </div>
 </template>
 

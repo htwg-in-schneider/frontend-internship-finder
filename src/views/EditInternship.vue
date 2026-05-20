@@ -1,0 +1,149 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
+import Button from '@/components/Button.vue';
+
+const route = useRoute();
+const router = useRouter();
+const url = 'http://localhost:8081/api/internship';
+const categoryUrl = 'http://localhost:8081/api/category';
+
+const internship = ref({});
+const categories = ref([]);
+const translations = ref({});
+
+onMounted(async () => {
+  await Promise.all([fetchCategories(), fetchTranslations(), fetchInternship()]);
+});
+
+async function fetchCategories() {
+  try {
+    const response = await fetch(categoryUrl);
+    if (response.ok) {
+      categories.value = await response.json();
+    }
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+  }
+}
+
+async function fetchTranslations() {
+  try {
+    const response = await fetch(`${categoryUrl}/translation`);
+    if (response.ok) {
+      translations.value = await response.json();
+    }
+  } catch (error) {
+    console.error('Error fetching translations:', error);
+  }
+}
+
+async function fetchInternship() {
+  const internshipId = route.params.id;
+  try {
+    const response = await fetch(`${url}/${internshipId}`);
+    if (!response.ok) {
+      throw new Error(`Praktikum nicht gefunden: ${response.status}`);
+    }
+    internship.value = await response.json();
+    internship.value.category = internship.value.category ?? '';
+  } catch (error) {
+    console.error('Fehler beim Laden des Praktikums:', error);
+    alert('Praktikum konnte nicht geladen werden.');
+    router.push('/');
+  }
+}
+
+async function updateInternship() {
+  try {
+    const response = await fetch(`${url}/${internship.value.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(internship.value),
+    });
+    if (!response.ok) {
+      throw new Error(`Fehler beim Aktualisieren: ${response.status}`);
+    }
+    alert('Praktikum erfolgreich aktualisiert!');
+    router.push('/');
+  } catch (error) {
+    console.error('Fehler beim Aktualisieren des Praktikums:', error);
+    alert('Praktikum konnte nicht aktualisiert werden.');
+  }
+}
+
+async function deleteInternship() {
+  if (!confirm('Möchten Sie dieses Praktikum wirklich löschen?')) return;
+  try {
+    const response = await fetch(`${url}/${internship.value.id}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      throw new Error(`Fehler beim Löschen: ${response.status}`);
+    }
+    alert('Praktikum erfolgreich gelöscht!');
+    router.push('/');
+  } catch (error) {
+    console.error('Fehler beim Löschen des Praktikums:', error);
+    alert('Praktikum konnte nicht gelöscht werden.');
+  }
+}
+</script>
+
+<template>
+  <Navbar />
+  <div class="container py-5" style="max-width: 600px;">
+    <h2 class="fw-bold mb-4">Praktikum bearbeiten</h2>
+
+    <form @submit.prevent="updateInternship">
+      <div class="mb-3">
+        <label for="id" class="form-label">Praktikum ID</label>
+        <input type="text" id="id" class="form-control" v-model="internship.id" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="title" class="form-label">Titel</label>
+        <input type="text" id="title" class="form-control" v-model="internship.title" />
+      </div>
+      <div class="mb-3">
+        <label for="company" class="form-label">Unternehmen</label>
+        <input type="text" id="company" class="form-control" v-model="internship.company" />
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Standort</label>
+        <input type="text" id="location" class="form-control" v-model="internship.location" />
+      </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">Bereich</label>
+        <select id="category" class="form-select" v-model="internship.category">
+          <option value="">Bitte wählen</option>
+          <option v-for="category in categories" :key="category" :value="category">
+            {{ translations[category] || category }}
+          </option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="salary" class="form-label">Vergütung (€/Monat)</label>
+        <input type="number" id="salary" class="form-control" v-model="internship.salary" />
+      </div>
+      <div class="mb-3">
+        <label for="duration" class="form-label">Dauer (Monate)</label>
+        <input type="number" id="duration" class="form-control" v-model="internship.duration" />
+      </div>
+      <div class="mb-3">
+        <label for="logoUrl" class="form-label">Logo-URL</label>
+        <input type="text" id="logoUrl" class="form-control" v-model="internship.logoUrl" />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Beschreibung</label>
+        <textarea id="description" class="form-control" v-model="internship.description"></textarea>
+      </div>
+      <Button type="submit" variant="accent">Aktualisieren</Button>
+      <Button type="button" variant="danger" class="ms-2" @click="deleteInternship">Löschen</Button>
+    </form>
+  </div>
+  <Footer />
+</template>
+
+<style scoped></style>

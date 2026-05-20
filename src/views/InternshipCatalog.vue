@@ -3,6 +3,7 @@ import SpecialBanner from '@/components/SpecialBanner.vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import InternshipCard from '@/components/InternshipCard.vue';
+import NavButton from '@/components/NavButton.vue';
 import { ref, onMounted } from 'vue';
 
 const url = 'http://localhost:8081/api/internship';
@@ -51,9 +52,9 @@ async function fetchInternships() {
             </div>
           </div>
 
-          <a href="#" class="btn btn-accent">
-            <i class="bi bi-house-door me-1"></i>Home
-          </a>
+          <NavButton to="/internship/create" variant="accent">
+            <i class="bi bi-plus-lg me-1"></i>Neues Praktikum
+          </NavButton>
         </div>
 
         <div class="col-lg-6">
