@@ -3,11 +3,37 @@ import SpecialBanner from '@/components/SpecialBanner.vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import InternshipCard from '@/components/InternshipCard.vue';
+import { ref, onMounted } from 'vue';
 
-import { internships } from '@/data.js';
+const url = 'https://dummyjson.com/products';
 
-function getInternships() {
-  return internships;
+const internships = ref([]);
+onMounted(async () => fetchInternships());
+
+async function fetchInternships() {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const dummyproducts = await response.json();
+    // dummyjson liefert Produkte, die wir an unsere Internship-Struktur anpassen.
+    // (Nur temporär in 8a - in 8b kommen echte Praktika vom eigenen Backend)
+    internships.value = dummyproducts.products.map(dummyproduct => ({
+      id: dummyproduct.id,
+      title: dummyproduct.title,
+      description: dummyproduct.description,
+      company: dummyproduct.brand || 'Beispiel GmbH',
+      location: 'Konstanz',
+      category: dummyproduct.category,
+      salary: dummyproduct.price,
+      duration: 6,
+      logoUrl: dummyproduct.thumbnail,
+    }));
+    console.log(internships.value);
+  } catch (error) {
+    console.error('Error fetching internships:', error);
+  }
 }
 </script>
 
@@ -54,7 +80,7 @@ function getInternships() {
   <section class="py-4">
     <div class="container">
       <div class="row g-4">
-        <div v-for="internship in getInternships()" :key="internship.id" class="col-md-6">
+        <div v-for="internship in internships" :key="internship.id" class="col-md-6">
           <InternshipCard :internship="internship" />
         </div>
       </div>

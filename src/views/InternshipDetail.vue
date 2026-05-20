@@ -5,15 +5,38 @@ import Footer from '@/components/Footer.vue';
 import NavButton from '@/components/NavButton.vue';
 import Button from '@/components/Button.vue';
 
-import { computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { internships } from '@/data.js';
 
+const url = 'https://dummyjson.com/products';
 const route = useRoute();
+const internship = ref(null);
+onMounted(async () => fetchInternship());
 
-const internship = computed(() => {
-    return internships.find(i => String(i.id) === String(route.params.id)) || null;
-});
+async function fetchInternship() {
+  try {
+    const response = await fetch(`${url}/${route.params.id}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const dummyproduct = await response.json();
+    // dummyjson-Struktur an unsere Internship-Struktur anpassen
+    internship.value = {
+      id: dummyproduct.id,
+      title: dummyproduct.title,
+      description: dummyproduct.description,
+      company: dummyproduct.brand || 'Beispiel GmbH',
+      location: 'Konstanz',
+      category: dummyproduct.category,
+      salary: dummyproduct.price,
+      duration: 6,
+      logoUrl: dummyproduct.thumbnail,
+    };
+    console.log(internship.value);
+  } catch (error) {
+    console.error('Error fetching internship:', error);
+  }
+}
 </script>
 
 <template>
