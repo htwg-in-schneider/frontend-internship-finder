@@ -1,6 +1,8 @@
 <script setup>
+import { useBannerStore } from '@/stores/banner';
 import Button from '@/components/Button.vue';
-import { ref } from 'vue';
+
+const bannerStore = useBannerStore();
 
 defineProps({
     text: {
@@ -8,18 +10,12 @@ defineProps({
         default: 'Premium-Mitgliedschaft jetzt entdecken!',
     }
 });
-
-const showBanner = ref(true);
-
-function closeBanner() {
-    showBanner.value = false;
-}
 </script>
 
 <template>
-    <div id="specialbanner" class="text-center py-2 text-white" v-if="showBanner">
+    <div id="specialbanner" class="text-center py-2 text-white" v-if="bannerStore.isVisible">
         {{ text }}&nbsp;&nbsp;
-        <Button variant="dark" :onClick="closeBanner">Verstanden!</Button>
+        <Button variant="dark" @click="bannerStore.hideBanner">Verstanden!</Button>
     </div>
 </template>
 
