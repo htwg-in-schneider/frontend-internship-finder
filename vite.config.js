@@ -6,6 +6,8 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: 'frontend-internship-finder', 
+
   plugins: [
     vue(),
     vueDevTools(),
