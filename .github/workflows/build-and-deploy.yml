@@ -2,7 +2,7 @@
 name: Build Vue App and Deploy as GitHub Page
 on:
   push:
-    branches: [ "aufgabe4" ]
+    branches: [ "main"]
 permissions:
   contents: read
   pages: write
@@ -38,7 +38,7 @@ jobs:
     needs: build 
     
     # Prevents deployment if the push is from a fork or not on a specific branch
-    if: github.ref == 'refs/heads/aufgabe4'
+    if: github.ref == 'refs/heads/main'
     
     environment:
       name: github-pages
