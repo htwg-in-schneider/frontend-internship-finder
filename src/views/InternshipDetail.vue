@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import NavButton from '@/components/NavButton.vue';
 import Button from '@/components/Button.vue';
+import InternshipReviews from '@/components/InternshipReviews.vue';
 
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
@@ -52,6 +53,11 @@ async function fetchInternship() {
                 <NavButton variant="secondary" class="me-2" to="/">Zurück</NavButton>
                 <Button variant="accent">Jetzt bewerben</Button>
             </div>
+        </div>
+
+        <!-- Bewertungen (1:n Internship -> Reviews) -->
+        <div v-if="internship">
+            <InternshipReviews :internshipId="internship.id" />
         </div>
         <div v-else class="text-center">
             <p>Praktikum wurde nicht gefunden.</p>
