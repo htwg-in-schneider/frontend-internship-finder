@@ -1,12 +1,16 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useAuth0 } from '@auth0/auth0-vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import Button from '@/components/Button.vue';
+import { useToastStore } from '@/stores/toast';
 
 const route = useRoute();
 const router = useRouter();
+const toast = useToastStore();
+const { getAccessTokenSilently } = useAuth0();
 const url = 'http://localhost:8081/api/internship';
 const categoryUrl = 'http://localhost:8081/api/category';
 
@@ -51,43 +55,50 @@ async function fetchInternship() {
     internship.value.category = internship.value.category ?? '';
   } catch (error) {
     console.error('Fehler beim Laden des Praktikums:', error);
-    alert('Praktikum konnte nicht geladen werden.');
     router.push('/');
+    toast.error('Praktikum konnte nicht geladen werden.');
   }
 }
 
 async function updateInternship() {
   try {
+    const token = await getAccessTokenSilently();
     const response = await fetch(`${url}/${internship.value.id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(internship.value),
     });
     if (!response.ok) {
       throw new Error(`Fehler beim Aktualisieren: ${response.status}`);
     }
-    alert('Praktikum erfolgreich aktualisiert!');
     router.push('/');
+    toast.success('Praktikum erfolgreich aktualisiert!');
   } catch (error) {
     console.error('Fehler beim Aktualisieren des Praktikums:', error);
-    alert('Praktikum konnte nicht aktualisiert werden.');
+    toast.error('Praktikum konnte nicht aktualisiert werden.');
   }
 }
 
 async function deleteInternship() {
-  if (!confirm('Möchten Sie dieses Praktikum wirklich löschen?')) return;
   try {
+    const token = await getAccessTokenSilently();
     const response = await fetch(`${url}/${internship.value.id}`, {
       method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!response.ok) {
       throw new Error(`Fehler beim Löschen: ${response.status}`);
     }
-    alert('Praktikum erfolgreich gelöscht!');
     router.push('/');
+    toast.success('Praktikum erfolgreich gelöscht!');
   } catch (error) {
     console.error('Fehler beim Löschen des Praktikums:', error);
-    alert('Praktikum konnte nicht gelöscht werden.');
+    toast.error('Praktikum konnte nicht gelöscht werden.');
   }
 }
 </script>

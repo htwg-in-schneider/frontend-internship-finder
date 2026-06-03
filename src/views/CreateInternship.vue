@@ -1,11 +1,15 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuth0 } from '@auth0/auth0-vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import Button from '@/components/Button.vue';
+import { useToastStore } from '@/stores/toast';
 
 const router = useRouter();
+const toast = useToastStore();
+const { getAccessTokenSilently } = useAuth0();
 const url = 'http://localhost:8081/api/internship';
 const categoryUrl = 'http://localhost:8081/api/category';
 
@@ -24,19 +28,23 @@ const translations = ref({});
 
 async function createInternship() {
   try {
+    const token = await getAccessTokenSilently();
     const response = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(internship.value),
     });
     if (!response.ok) {
       throw new Error(`Fehler beim Erstellen: ${response.status}`);
     }
-    alert('Praktikum erfolgreich erstellt!');
     router.push('/');
+    toast.success('Praktikum erfolgreich erstellt!');
   } catch (error) {
     console.error('Fehler beim Erstellen des Praktikums:', error);
-    alert('Praktikum konnte nicht erstellt werden.');
+    toast.error('Praktikum konnte nicht erstellt werden.');
   }
 }
 
