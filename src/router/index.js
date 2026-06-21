@@ -10,6 +10,8 @@ import Datenschutz from '@/views/Datenschutz.vue';
 import Impressum from '@/views/Impressum.vue';
 import Apply from '@/views/Apply.vue';
 import AdminApplications from '@/views/AdminApplications.vue';
+import AdminUsers from '@/views/AdminUsers.vue';
+import CompanyInternships from '@/views/CompanyInternships.vue';
 
 const routes = [
   { path: '/', component: InternshipCatalog },
@@ -42,6 +44,16 @@ const routes = [
   {
     path: '/bewerbungen',
     component: AdminApplications,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/nutzer',
+    component: AdminUsers,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/meine-praktika',
+    component: CompanyInternships,
     beforeEnter: authGuard
   },
   { path: '/kontakt', component: Kontakt },

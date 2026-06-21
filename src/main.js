@@ -15,7 +15,7 @@ const auth0 = createAuth0({
     useRefreshTokens: true,
     authorizationParams: {
         audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-        redirect_uri: window.location.origin + window.location.pathname
+        redirect_uri: window.location.origin + window.location.pathname // CHECK for GitHub Pages deployment
     }
 })
 

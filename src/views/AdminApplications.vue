@@ -13,6 +13,7 @@ const error = ref('');
 const isAdmin = ref(false);
 const isCompany = ref(false);
 const isPremium = ref(false);
+const userName = ref('');
 const messageTexts = ref({});
 
 onMounted(async () => {
@@ -31,10 +32,18 @@ async function checkRole() {
       isAdmin.value = data.role === 'ADMIN';
       isCompany.value = data.role === 'COMPANY';
       isPremium.value = data.role === 'PREMIUM';
+      userName.value = data.name || '';
     }
   } catch (e) {
     console.error('Error checking role:', e);
   }
+}
+
+function senderLabel(m) {
+  if (userName.value && m.sender === userName.value) {
+    return 'Ich';
+  }
+  return m.sender;
 }
 
 async function fetchApplications() {
@@ -167,7 +176,7 @@ function formatDateOnly(value) {
           <!-- Nachrichten-Verlauf -->
           <div v-if="app.messages && app.messages.length" class="mt-3 d-flex flex-column gap-2">
             <div v-for="m in app.messages" :key="m.id" class="p-2 rounded message-box">
-              <div class="small text-secondary mb-1"><strong>{{ m.sender }}</strong> · {{ formatDate(m.createdAt) }}</div>
+              <div class="small text-secondary mb-1"><strong>{{ senderLabel(m) }}</strong> · {{ formatDate(m.createdAt) }}</div>
               <div>{{ m.text }}</div>
             </div>
           </div>

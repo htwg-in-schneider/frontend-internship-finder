@@ -5,6 +5,8 @@ import { useAuth0 } from '@auth0/auth0-vue'
 const { loginWithRedirect, logout, isAuthenticated, isLoading, getAccessTokenSilently, user } = useAuth0()
 
 const canViewApplications = ref(false)
+const isAdmin = ref(false)
+const isCompany = ref(false)
 const pictureUrl = ref('')
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -13,6 +15,8 @@ const avatarSrc = computed(() => pictureUrl.value || (user.value && user.value.p
 async function checkRole() {
   if (!isAuthenticated.value) {
     canViewApplications.value = false
+    isAdmin.value = false
+    isCompany.value = false
     pictureUrl.value = ''
     return
   }
@@ -24,6 +28,8 @@ async function checkRole() {
     if (response.ok) {
       const data = await response.json()
       canViewApplications.value = data.role === 'ADMIN' || data.role === 'COMPANY' || data.role === 'PREMIUM'
+      isAdmin.value = data.role === 'ADMIN'
+      isCompany.value = data.role === 'COMPANY'
       pictureUrl.value = data.pictureUrl || ''
     }
   } catch (error) {
@@ -61,7 +67,9 @@ const handleLogout = () => {
       </template>
       <template v-else>
         <li><router-link class="dropdown-item" to="/profile">Mein Profil</router-link></li>
+        <li v-if="isCompany"><router-link class="dropdown-item" to="/meine-praktika">Meine Praktika</router-link></li>
         <li v-if="canViewApplications"><router-link class="dropdown-item" to="/bewerbungen">Bewerbungen</router-link></li>
+        <li v-if="isAdmin"><router-link class="dropdown-item" to="/nutzer">Nutzerverwaltung</router-link></li>
         <li><hr class="dropdown-divider"></li>
         <li><button class="dropdown-item" @click="handleLogout">Abmelden</button></li>
       </template>
