@@ -11,8 +11,8 @@ const route = useRoute();
 const router = useRouter();
 const toast = useToastStore();
 const { getAccessTokenSilently } = useAuth0();
-const url = 'http://localhost:8081/api/internship';
-const categoryUrl = 'http://localhost:8081/api/category';
+const url = `${import.meta.env.VITE_API_BASE_URL}/api/internship`;
+const categoryUrl = `${import.meta.env.VITE_API_BASE_URL}/api/category`;
 
 const internship = ref({});
 const categories = ref([]);

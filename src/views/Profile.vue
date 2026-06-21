@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue'
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
 
-const baseUrl = 'http://localhost:8081';
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
 const profileData = ref(null)
 const bearerToken = ref('')

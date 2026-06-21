@@ -6,13 +6,49 @@ import NavButton from '@/components/NavButton.vue';
 import Button from '@/components/Button.vue';
 import InternshipReviews from '@/components/InternshipReviews.vue';
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useAuth0 } from '@auth0/auth0-vue';
 
-const url = 'http://localhost:8081/api/internship';
+const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+const isAdmin = ref(false);
+const canAddReview = ref(false);
+const canApply = ref(false);
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const url = `${baseUrl}/api/internship`;
 const route = useRoute();
 const internship = ref(null);
-onMounted(async () => fetchInternship());
+
+onMounted(async () => {
+  fetchInternship();
+  checkAdminRole();
+});
+
+watch(isAuthenticated, (newValue) => {
+  checkAdminRole();
+});
+
+async function checkAdminRole() {
+  if (!isAuthenticated.value) {
+    return;
+  }
+
+  try {
+    const token = await getAccessTokenSilently();
+    const response = await fetch(`${baseUrl}/api/profile`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      isAdmin.value = data.role === 'ADMIN';
+      canAddReview.value = data.role === 'PREMIUM' || data.role === 'ADMIN';
+      canApply.value = data.role === 'PREMIUM';
+    }
+  } catch (error) {
+    console.error('Error checking admin role:', error);
+  }
+}
 
 async function fetchInternship() {
   try {
@@ -51,13 +87,13 @@ async function fetchInternship() {
                 </ul>
 
                 <NavButton variant="secondary" class="me-2" to="/">Zurück</NavButton>
-                <Button variant="accent">Jetzt bewerben</Button>
+                <Button v-if="canApply" variant="accent">Jetzt bewerben</Button>
             </div>
         </div>
 
         <!-- Bewertungen (1:n Internship -> Reviews) -->
         <div v-if="internship">
-            <InternshipReviews :internshipId="internship.id" />
+            <InternshipReviews :internshipId="internship.id" :show-delete-button="isAdmin" :show-add-form="canAddReview" />
         </div>
         <div v-else class="text-center">
             <p>Praktikum wurde nicht gefunden.</p>

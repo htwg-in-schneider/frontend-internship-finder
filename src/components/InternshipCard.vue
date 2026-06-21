@@ -5,7 +5,15 @@ defineProps({
     internship: {
         type: Object,
         required: true,
-    }
+    },
+    showEditButton: {
+        type: Boolean,
+        default: false,
+    },
+    showDetailsButton: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 function onImgError(e) {
@@ -22,10 +30,10 @@ function onImgError(e) {
         </div>
         <p class="card-text text-secondary">{{ internship.description }}</p>
         <div class="mt-auto d-flex gap-2">
-            <NavButton variant="accent" :to="`/internship/view/${internship.id}`">
+            <NavButton v-if="showDetailsButton" variant="accent" :to="`/internship/view/${internship.id}`">
                 Details
             </NavButton>
-            <NavButton variant="secondary" :to="`/internship/edit/${internship.id}`">
+            <NavButton v-if="showEditButton" variant="secondary" :to="`/internship/edit/${internship.id}`">
                 Bearbeiten
             </NavButton>
         </div>

@@ -11,7 +11,8 @@ const routes = [
   {
     path: '/internship/view/:id',
     name: 'internship',
-    component: InternshipDetail
+    component: InternshipDetail,
+    beforeEnter: authGuard
   },
   {
     path: '/internship/create',
