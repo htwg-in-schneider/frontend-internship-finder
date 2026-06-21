@@ -12,6 +12,8 @@ import { useAuth0 } from '@auth0/auth0-vue';
 const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 const isAdmin = ref(false);
 const canCreate = ref(false);
+const isCompany = ref(false);
+const userCompany = ref('');
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -46,6 +48,8 @@ async function checkAdminRole() {
       const data = await response.json();
       isAdmin.value = data.role === 'ADMIN';
       canCreate.value = data.role === 'ADMIN' || data.role === 'COMPANY';
+      isCompany.value = data.role === 'COMPANY';
+      userCompany.value = data.company || '';
     }
   } catch (error) {
     console.error('Error checking admin role:', error);
@@ -75,7 +79,7 @@ async function fetchInternships(filters = {}) {
 </script>
 
 <template>
-  <SpecialBanner text="Neu: Premium-Mitgliedschaft für vertiefte Bewerber-Tipps!" />
+  <SpecialBanner text="Schließe jetzt die Premium Mitgliedschaft ab 20% reduziert!" />
   <Navbar />
 
   <!-- Hero (ohne Suchfeld - Suche ist in der Filter-Leiste) -->
@@ -105,7 +109,9 @@ async function fetchInternships(filters = {}) {
     <div class="container">
       <div class="row g-4">
         <div v-for="internship in internships" :key="internship.id" class="col-md-6">
-          <InternshipCard :internship="internship" :show-edit-button="isAdmin" :show-details-button="isAuthenticated" />
+          <InternshipCard :internship="internship"
+            :show-edit-button="isAdmin || (isCompany && internship.company === userCompany)"
+            :show-details-button="isAuthenticated" />
         </div>
       </div>
       

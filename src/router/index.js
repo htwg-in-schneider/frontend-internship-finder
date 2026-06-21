@@ -8,6 +8,8 @@ import Profile from '@/views/Profile.vue';
 import Kontakt from '@/views/Kontakt.vue';
 import Datenschutz from '@/views/Datenschutz.vue';
 import Impressum from '@/views/Impressum.vue';
+import Apply from '@/views/Apply.vue';
+import AdminApplications from '@/views/AdminApplications.vue';
 
 const routes = [
   { path: '/', component: InternshipCatalog },
@@ -30,6 +32,16 @@ const routes = [
   {
     path: '/profile',
     component: Profile,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/apply/:internshipId',
+    component: Apply,
+    beforeEnter: authGuard
+  },
+  {
+    path: '/bewerbungen',
+    component: AdminApplications,
     beforeEnter: authGuard
   },
   { path: '/kontakt', component: Kontakt },

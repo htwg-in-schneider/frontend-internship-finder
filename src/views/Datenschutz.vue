@@ -8,7 +8,6 @@ import Footer from '@/components/Footer.vue';
   <div class="container py-5" style="max-width: 800px;">
     <h2 class="fw-bold mb-4">Datenschutzerklärung</h2>
 
-    <!-- 1 -->
     <h4 class="fw-bold mt-5">1. Datenschutz auf einen Blick</h4>
 
     <h5 class="fw-bold mt-3">Allgemeine Hinweise</h5>
@@ -47,7 +46,6 @@ import Footer from '@/components/Footer.vue';
       können Sie sich jederzeit an uns wenden.
     </p>
 
-    <!-- 2 -->
     <h4 class="fw-bold mt-5">2. Hosting</h4>
     <p class="text-secondary">
       Wir hosten die Inhalte unserer Website bei externen Anbietern. Das Frontend wird als statische
@@ -60,7 +58,6 @@ import Footer from '@/components/Footer.vue';
       Bereitstellung unseres Online-Angebots (Art. 6 Abs. 1 lit. f DSGVO).
     </p>
 
-    <!-- 3 -->
     <h4 class="fw-bold mt-5">3. Allgemeine Hinweise und Pflichtinformationen</h4>
 
     <h5 class="fw-bold mt-3">Datenschutz</h5>
@@ -121,7 +118,6 @@ import Footer from '@/components/Footer.vue';
       Adresszeile des Browsers von „http://" auf „https://" wechselt.
     </p>
 
-    <!-- 4 -->
     <h4 class="fw-bold mt-5">4. Datenerfassung auf dieser Website</h4>
 
     <h5 class="fw-bold mt-3">Server-Log-Dateien</h5>

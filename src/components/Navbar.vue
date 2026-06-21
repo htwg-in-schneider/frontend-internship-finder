@@ -6,7 +6,7 @@ import UserMenu from './UserMenu.vue'
     <nav class="navbar navbar-custom sticky-top py-1">
         <div class="container">
             <router-link class="navbar-brand" to="/">
-                <img src="/internship-finder-logo.png" alt="Internship Finder Logo" height="48">
+                <img src="/internship-finder-logo.png" alt="Internship Finder Logo" height="64">
             </router-link>
 
             <!-- Profil-Dropdown - immer sichtbar -->

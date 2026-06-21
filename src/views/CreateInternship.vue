@@ -25,6 +25,7 @@ const internship = ref({
 });
 const categories = ref([]);
 const translations = ref({});
+const companyLocked = ref(false);
 
 async function createInternship() {
   try {
@@ -49,8 +50,26 @@ async function createInternship() {
 }
 
 onMounted(async () => {
-  await Promise.all([fetchCategories(), fetchTranslations()]);
+  await Promise.all([fetchCategories(), fetchTranslations(), prefillCompany()]);
 });
+
+async function prefillCompany() {
+  try {
+    const token = await getAccessTokenSilently();
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/profile`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (data.role === 'COMPANY' && data.company) {
+        internship.value.company = data.company;
+        companyLocked.value = true;
+      }
+    }
+  } catch (error) {
+    console.error('Error loading profile:', error);
+  }
+}
 
 async function fetchCategories() {
   try {
@@ -86,7 +105,7 @@ async function fetchTranslations() {
       </div>
       <div class="mb-3">
         <label for="company" class="form-label">Unternehmen</label>
-        <input type="text" id="company" class="form-control" v-model="internship.company" />
+        <input type="text" id="company" class="form-control" v-model="internship.company" :readonly="companyLocked" />
       </div>
       <div class="mb-3">
         <label for="location" class="form-label">Standort</label>

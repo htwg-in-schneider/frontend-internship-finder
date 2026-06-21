@@ -7,7 +7,7 @@ import Button from '@/components/Button.vue';
 import InternshipReviews from '@/components/InternshipReviews.vue';
 
 import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAuth0 } from '@auth0/auth0-vue';
 
 const { isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -18,7 +18,12 @@ const canApply = ref(false);
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const url = `${baseUrl}/api/internship`;
 const route = useRoute();
+const router = useRouter();
 const internship = ref(null);
+
+function goToApply() {
+  router.push(`/apply/${internship.value.id}`);
+}
 
 onMounted(async () => {
   fetchInternship();
@@ -65,7 +70,7 @@ async function fetchInternship() {
 </script>
 
 <template>
-    <SpecialBanner text="Neu: Premium-Mitgliedschaft für vertiefte Bewerber-Tipps!" />
+    <SpecialBanner text="Schließe jetzt die Premium Mitgliedschaft ab 20% reduziert!" />
     <Navbar />
 
     <section class="container py-5">
@@ -87,7 +92,7 @@ async function fetchInternship() {
                 </ul>
 
                 <NavButton variant="secondary" class="me-2" to="/">Zurück</NavButton>
-                <Button v-if="canApply" variant="accent">Jetzt bewerben</Button>
+                <Button v-if="canApply" variant="accent" :onClick="goToApply">Jetzt bewerben</Button>
             </div>
         </div>
 

@@ -7,7 +7,7 @@ const bannerStore = useBannerStore();
 defineProps({
     text: {
         type: String,
-        default: 'Premium-Mitgliedschaft jetzt entdecken!',
+        default: 'Schließe jetzt die Premium Mitgliedschaft ab 20% reduziert!',
     }
 });
 </script>
