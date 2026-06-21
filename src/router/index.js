@@ -5,6 +5,9 @@ import InternshipDetail from '@/views/InternshipDetail.vue';
 import CreateInternship from '@/views/CreateInternship.vue';
 import EditInternship from '@/views/EditInternship.vue';
 import Profile from '@/views/Profile.vue';
+import Kontakt from '@/views/Kontakt.vue';
+import Datenschutz from '@/views/Datenschutz.vue';
+import Impressum from '@/views/Impressum.vue';
 
 const routes = [
   { path: '/', component: InternshipCatalog },
@@ -29,6 +32,9 @@ const routes = [
     component: Profile,
     beforeEnter: authGuard
   },
+  { path: '/kontakt', component: Kontakt },
+  { path: '/datenschutz', component: Datenschutz },
+  { path: '/impressum', component: Impressum },
 ];
 
 const router = createRouter({
