@@ -18,6 +18,18 @@ const internship = ref({});
 const categories = ref([]);
 const translations = ref({});
 const companyLocked = ref(false);
+const errors = ref({ title: '', company: '', location: '', category: '', salary: '', duration: '' });
+
+function validate() {
+  errors.value.title = (internship.value.title || '').trim() ? '' : 'Bitte geben Sie einen Titel an.';
+  errors.value.company = (internship.value.company || '').trim() ? '' : 'Bitte geben Sie das Unternehmen an.';
+  errors.value.location = (internship.value.location || '').trim() ? '' : 'Bitte geben Sie einen Standort an.';
+  errors.value.category = internship.value.category ? '' : 'Bitte wählen Sie einen Bereich.';
+  errors.value.salary = Number(internship.value.salary) >= 0 ? '' : 'Bitte geben Sie eine gültige Vergütung an.';
+  errors.value.duration = Number(internship.value.duration) > 0 ? '' : 'Bitte geben Sie eine gültige Dauer an.';
+  return !errors.value.title && !errors.value.company && !errors.value.location
+    && !errors.value.category && !errors.value.salary && !errors.value.duration;
+}
 
 onMounted(async () => {
   await Promise.all([fetchCategories(), fetchTranslations(), fetchInternship(), checkCompanyLock()]);
@@ -79,6 +91,7 @@ async function fetchInternship() {
 }
 
 async function updateInternship() {
+  if (!validate()) return;
   try {
     const token = await getAccessTokenSilently();
     const response = await fetch(`${url}/${internship.value.id}`, {
@@ -129,36 +142,48 @@ async function deleteInternship() {
     <form @submit.prevent="updateInternship">
       <div class="mb-3">
         <label for="id" class="form-label">Praktikum ID</label>
-        <input type="text" id="id" class="form-control" v-model="internship.id" readonly />
+        <input type="text" id="id" class="form-control" v-model="internship.id" disabled />
       </div>
       <div class="mb-3">
         <label for="title" class="form-label">Titel</label>
-        <input type="text" id="title" class="form-control" v-model="internship.title" />
+        <input type="text" id="title" class="form-control" :class="{ 'is-invalid': errors.title }"
+          v-model="internship.title" @input="errors.title = ''" />
+        <div class="invalid-feedback">{{ errors.title }}</div>
       </div>
       <div class="mb-3">
         <label for="company" class="form-label">Unternehmen</label>
-        <input type="text" id="company" class="form-control" v-model="internship.company" :readonly="companyLocked" />
+        <input type="text" id="company" class="form-control" :class="{ 'is-invalid': errors.company }"
+          v-model="internship.company" :readonly="companyLocked" @input="errors.company = ''" />
+        <div class="invalid-feedback">{{ errors.company }}</div>
       </div>
       <div class="mb-3">
         <label for="location" class="form-label">Standort</label>
-        <input type="text" id="location" class="form-control" v-model="internship.location" />
+        <input type="text" id="location" class="form-control" :class="{ 'is-invalid': errors.location }"
+          v-model="internship.location" @input="errors.location = ''" />
+        <div class="invalid-feedback">{{ errors.location }}</div>
       </div>
       <div class="mb-3">
         <label for="category" class="form-label">Bereich</label>
-        <select id="category" class="form-select" v-model="internship.category">
+        <select id="category" class="form-select" :class="{ 'is-invalid': errors.category }"
+          v-model="internship.category" @change="errors.category = ''">
           <option value="">Bitte wählen</option>
           <option v-for="category in categories" :key="category" :value="category">
             {{ translations[category] || category }}
           </option>
         </select>
+        <div class="invalid-feedback">{{ errors.category }}</div>
       </div>
       <div class="mb-3">
         <label for="salary" class="form-label">Vergütung (€/Monat)</label>
-        <input type="number" id="salary" class="form-control" v-model="internship.salary" />
+        <input type="number" id="salary" class="form-control" :class="{ 'is-invalid': errors.salary }"
+          v-model="internship.salary" @input="errors.salary = ''" />
+        <div class="invalid-feedback">{{ errors.salary }}</div>
       </div>
       <div class="mb-3">
         <label for="duration" class="form-label">Dauer (Monate)</label>
-        <input type="number" id="duration" class="form-control" v-model="internship.duration" />
+        <input type="number" id="duration" class="form-control" :class="{ 'is-invalid': errors.duration }"
+          v-model="internship.duration" @input="errors.duration = ''" />
+        <div class="invalid-feedback">{{ errors.duration }}</div>
       </div>
       <div class="mb-3">
         <label for="logoUrl" class="form-label">Logo-URL</label>
