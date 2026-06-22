@@ -11,6 +11,7 @@ const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
 const toast = useToastStore()
 const profileData = ref(null)
 const error = ref('')
+const errors = ref({ name: '' })
 
 const form = ref({
   name: '',
@@ -104,7 +105,13 @@ async function fetchProfile() {
   }
 }
 
+function validate() {
+  errors.value.name = form.value.name.trim() ? '' : 'Bitte geben Sie einen Namen an.'
+  return !errors.value.name
+}
+
 async function saveProfile() {
+  if (!validate()) return
   let birthDate = ''
   if (birthDay.value && birthMonth.value && birthYear.value) {
     birthDate = `${birthYear.value}-${String(birthMonth.value).padStart(2, '0')}-${String(birthDay.value).padStart(2, '0')}`
@@ -171,7 +178,9 @@ async function saveProfile() {
 
         <div class="mb-3">
           <label for="name" class="form-label">{{ isCompany ? 'Ansprechpartner' : 'Name' }}</label>
-          <input type="text" id="name" class="form-control" v-model="form.name" />
+          <input type="text" id="name" class="form-control" :class="{ 'is-invalid': errors.name }"
+            v-model="form.name" @input="errors.name = ''" />
+          <div class="invalid-feedback">{{ errors.name }}</div>
         </div>
 
         <div v-if="!isCompany" class="mb-3">

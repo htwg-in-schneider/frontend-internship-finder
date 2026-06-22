@@ -25,6 +25,12 @@ function goToApply() {
   router.push(`/apply/${internship.value.id}`);
 }
 
+function resolveLogo(url) {
+  if (!url) return '';
+  if (/^https?:\/\//.test(url)) return url;
+  return import.meta.env.BASE_URL + url.replace(/^\//, '');
+}
+
 onMounted(async () => {
   fetchInternship();
   checkAdminRole();
@@ -77,7 +83,7 @@ async function fetchInternship() {
         <div v-if="internship" class="row align-items-start g-4">
             <div class="col-md-5">
                 <div class="card-logo-area">
-                    <img :src="internship.logoUrl" :alt="internship.company + ' Logo'">
+                    <img :src="resolveLogo(internship.logoUrl)" :alt="internship.company + ' Logo'">
                 </div>
             </div>
             <div class="col-md-7">

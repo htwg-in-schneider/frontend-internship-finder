@@ -16,6 +16,7 @@ const isCompany = ref(false);
 const userCompany = ref('');
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const assetBase = import.meta.env.BASE_URL;
 
 const route = useRoute();
 const internships = ref([]);
@@ -91,7 +92,7 @@ async function fetchInternships(filters = {}) {
           <p class="mb-0 text-secondary">Teile und entdecke Praktika von Studierenden für Studierende.</p>
         </div>
         <div class="col-lg-6">
-          <img src="/hero.jpg" alt="Studentin mit Rucksack blickt in den Himmel" class="hero-image">
+          <img :src="`${assetBase}hero.jpg`" alt="Studentin mit Rucksack blickt in den Himmel" class="hero-image">
         </div>
       </div>
     </div>

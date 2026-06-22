@@ -19,6 +19,12 @@ defineProps({
 function onImgError(e) {
     e.target.src = 'https://placehold.co/300x150?text=Logo';
 }
+
+function resolveLogo(url) {
+    if (!url) return '';
+    if (/^https?:\/\//.test(url)) return url;
+    return import.meta.env.BASE_URL + url.replace(/^\//, '');
+}
 </script>
 
 <template>
@@ -26,7 +32,7 @@ function onImgError(e) {
         <h5 class="card-title fw-bold mb-1">{{ internship.title }}</h5>
         <p class="text-secondary mb-3 small">{{ internship.company }} · {{ internship.location }}</p>
         <div class="card-logo-area mb-3">
-            <img :src="internship.logoUrl" :alt="internship.company + ' Logo'" @error="onImgError">
+            <img :src="resolveLogo(internship.logoUrl)" :alt="internship.company + ' Logo'" @error="onImgError">
         </div>
         <p class="card-text text-secondary">{{ internship.description }}</p>
         <div class="mt-auto d-flex gap-2">

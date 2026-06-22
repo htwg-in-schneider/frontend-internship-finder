@@ -11,7 +11,7 @@ import FooterLink from './FooterLink.vue';
             <span aria-hidden="true">|</span>
             <FooterLink text="Impressum" label="Impressum" href="/impressum" />
         </nav>
-        <p class="text-secondary mb-0">&copy; 2025 Internship Finder</p>
+        <p class="text-secondary mb-0">&copy; 2026 Internship Finder</p>
     </footer>
 </template>
 
