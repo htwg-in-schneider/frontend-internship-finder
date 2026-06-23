@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue'
 import UserMenu from './UserMenu.vue'
 
-const { isAuthenticated, getAccessTokenSilently } = useAuth0()
+const { isAuthenticated, getAccessTokenSilently, loginWithRedirect, logout } = useAuth0()
 const baseUrl = import.meta.env.BASE_URL
 const apiUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -35,6 +35,18 @@ async function checkRole() {
 }
 
 watch(isAuthenticated, checkRole, { immediate: true })
+
+const handleLogin = () => {
+  loginWithRedirect()
+}
+
+const handleLogout = () => {
+  logout({
+    logoutParams: {
+      returnTo: window.location.origin + import.meta.env.BASE_URL
+    }
+  })
+}
 </script>
 
 <template>
@@ -54,7 +66,7 @@ watch(isAuthenticated, checkRole, { immediate: true })
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-4">
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/">Praktika</router-link>
+                        <router-link class="nav-link" to="/">Home</router-link>
                     </li>
                     <li class="nav-item" v-if="isCompany">
                         <router-link class="nav-link" to="/meine-praktika">Meine Praktika</router-link>
@@ -65,6 +77,9 @@ watch(isAuthenticated, checkRole, { immediate: true })
                     <li class="nav-item" v-if="isAdmin">
                         <router-link class="nav-link" to="/nutzer">Nutzerverwaltung</router-link>
                     </li>
+                    <li class="nav-item" v-if="isAuthenticated">
+                        <router-link class="nav-link" to="/profile">Mein Profil</router-link>
+                    </li>
                     <li class="nav-item">
                         <router-link class="nav-link" to="/datenschutz">Datenschutz</router-link>
                     </li>
@@ -73,6 +88,12 @@ watch(isAuthenticated, checkRole, { immediate: true })
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" to="/kontakt">Kontakt</router-link>
+                    </li>
+                    <li class="nav-item" v-if="!isAuthenticated">
+                        <button class="nav-link bg-transparent border-0" type="button" @click="handleLogin">Anmelden</button>
+                    </li>
+                    <li class="nav-item" v-if="isAuthenticated">
+                        <button class="nav-link bg-transparent border-0" type="button" @click="handleLogout">Abmelden</button>
                     </li>
                 </ul>
             </div>
