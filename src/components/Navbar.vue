@@ -1,7 +1,40 @@
 <script setup>
+import { ref, watch } from 'vue'
+import { useAuth0 } from '@auth0/auth0-vue'
 import UserMenu from './UserMenu.vue'
 
+const { isAuthenticated, getAccessTokenSilently } = useAuth0()
 const baseUrl = import.meta.env.BASE_URL
+const apiUrl = import.meta.env.VITE_API_BASE_URL
+
+const isAdmin = ref(false)
+const isCompany = ref(false)
+const canViewApplications = ref(false)
+
+async function checkRole() {
+  if (!isAuthenticated.value) {
+    isAdmin.value = false
+    isCompany.value = false
+    canViewApplications.value = false
+    return
+  }
+  try {
+    const token = await getAccessTokenSilently()
+    const response = await fetch(`${apiUrl}/api/profile`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    if (response.ok) {
+      const data = await response.json()
+      isAdmin.value = data.role === 'ADMIN'
+      isCompany.value = data.role === 'COMPANY'
+      canViewApplications.value = data.role === 'ADMIN' || data.role === 'COMPANY' || data.role === 'PREMIUM'
+    }
+  } catch (error) {
+    console.error('Error checking role:', error)
+  }
+}
+
+watch(isAuthenticated, checkRole, { immediate: true })
 </script>
 
 <template>
@@ -23,13 +56,13 @@ const baseUrl = import.meta.env.BASE_URL
                     <li class="nav-item">
                         <router-link class="nav-link" to="/">Praktika</router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isCompany">
                         <router-link class="nav-link" to="/meine-praktika">Meine Praktika</router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="canViewApplications">
                         <router-link class="nav-link" to="/bewerbungen">Bewerbungen</router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isAdmin">
                         <router-link class="nav-link" to="/nutzer">Nutzerverwaltung</router-link>
                     </li>
                     <li class="nav-item">
