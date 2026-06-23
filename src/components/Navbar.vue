@@ -57,10 +57,10 @@ const handleLogout = () => {
             </router-link>
 
             <div class="d-flex align-items-center order-lg-last">
-                <UserMenu class="me-2 me-lg-0" />
-                <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <UserMenu />
             </div>
 
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -69,7 +69,7 @@ const handleLogout = () => {
                         <router-link class="nav-link" to="/">Home</router-link>
                     </li>
                     <li class="nav-item" v-if="isCompany">
-                        <router-link class="nav-link" to="/meine-praktika">Meine Praktika</router-link>
+                        <router-link class="nav-link" to="/meine-praktika">Stellen</router-link>
                     </li>
                     <li class="nav-item" v-if="canViewApplications">
                         <router-link class="nav-link" to="/bewerbungen">Bewerbungen</router-link>
@@ -78,7 +78,7 @@ const handleLogout = () => {
                         <router-link class="nav-link" to="/nutzer">Nutzerverwaltung</router-link>
                     </li>
                     <li class="nav-item" v-if="isAuthenticated">
-                        <router-link class="nav-link" to="/profile">Mein Profil</router-link>
+                        <router-link class="nav-link" to="/profile">Profil</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" to="/datenschutz">Datenschutz</router-link>
