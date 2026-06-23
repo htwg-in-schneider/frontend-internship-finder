@@ -11,6 +11,12 @@ const baseUrl = import.meta.env.BASE_URL
                 <img :src="`${baseUrl}internship-finder-logo.png`" alt="Internship Finder Logo" height="64">
             </router-link>
 
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/">Praktika</router-link>
+                </li>
+            </ul>
+
             <!-- Profil-Dropdown - immer sichtbar -->
             <div class="ms-auto">
                 <UserMenu />
