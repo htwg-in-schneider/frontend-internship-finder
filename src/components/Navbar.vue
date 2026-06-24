@@ -69,7 +69,7 @@ const handleLogout = () => {
                         <router-link class="nav-link" to="/">Home</router-link>
                     </li>
                     <li class="nav-item" v-if="isCompany">
-                        <router-link class="nav-link" to="/meine-praktika">Stellen</router-link>
+                        <router-link class="nav-link" to="/meine-praktika">Praktika</router-link>
                     </li>
                     <li class="nav-item" v-if="canViewApplications">
                         <router-link class="nav-link" to="/bewerbungen">Bewerbungen</router-link>
