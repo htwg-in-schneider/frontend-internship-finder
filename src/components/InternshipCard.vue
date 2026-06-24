@@ -1,5 +1,12 @@
 <script setup>
+import { useAuth0 } from '@auth0/auth0-vue';
 import NavButton from '@/components/NavButton.vue';
+
+const { loginWithRedirect } = useAuth0();
+
+function handleLogin() {
+    loginWithRedirect();
+}
 
 defineProps({
     internship: {
@@ -39,6 +46,9 @@ function resolveLogo(url) {
             <NavButton v-if="showDetailsButton" variant="accent" :to="`/internship/view/${internship.id}`">
                 Details
             </NavButton>
+            <button v-if="!showDetailsButton" class="btn btn-accent" type="button" @click="handleLogin">
+                Für Details anmelden
+            </button>
             <NavButton v-if="showEditButton" variant="secondary" :to="`/internship/edit/${internship.id}`">
                 Bearbeiten
             </NavButton>
