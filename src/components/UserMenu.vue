@@ -66,8 +66,8 @@ const handleLogout = () => {
         <li><button class="dropdown-item" @click="handleLogin">Anmelden</button></li>
       </template>
       <template v-else>
-        <li><router-link class="dropdown-item" to="/profile">Mein Profil</router-link></li>
-        <li v-if="isCompany"><router-link class="dropdown-item" to="/meine-praktika">Meine Praktika</router-link></li>
+        <li><router-link class="dropdown-item" to="/profile">Profil</router-link></li>
+        <li v-if="isCompany"><router-link class="dropdown-item" to="/meine-praktika">Stellen</router-link></li>
         <li v-if="canViewApplications"><router-link class="dropdown-item" to="/bewerbungen">Bewerbungen</router-link></li>
         <li v-if="isAdmin"><router-link class="dropdown-item" to="/nutzer">Nutzerverwaltung</router-link></li>
         <li><hr class="dropdown-divider"></li>
