@@ -76,7 +76,7 @@ async function fetchInternship() {
 </script>
 
 <template>
-    <SpecialBanner text="Schließe jetzt die Premium Mitgliedschaft ab 20% reduziert!" />
+    <SpecialBanner text="Schließe jetzt die Premium Mitgliedschaft! Heute 20% reduziert!" />
     <Navbar />
 
     <section class="container py-5">

@@ -80,7 +80,7 @@ async function fetchInternships(filters = {}) {
 </script>
 
 <template>
-  <SpecialBanner text="Schließe jetzt die Premium Mitgliedschaft ab 20% reduziert!" />
+  <SpecialBanner text="Schließe jetzt die Premium Mitgliedschaft! Heute 20% reduziert!" />
   <Navbar />
 
   <!-- Hero (ohne Suchfeld - Suche ist in der Filter-Leiste) -->
