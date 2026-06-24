@@ -89,7 +89,7 @@ async function fetchInternships(filters = {}) {
       <div class="row align-items-center g-4">
         <div class="col-lg-6">
           <h1 class="brand-font fw-bold mb-2">Finde dein perfektes Praktikum</h1>
-          <p class="mb-0 text-secondary">Entdecke eine vielzahl von Praktika, bewirb dich direkt und knüpfe Kontakte zu Unternehmen.</p>
+          <p class="mb-0 text-secondary">Bei uns findest du Praktika aus vielen Bereichen. Du kannst dir die Stellen genau ansehen, dich direkt bewerben und mit den Unternehmen schreiben. Außerdem kannst du Bewertungen von anderen Studierenden einsehen und auch selber Bewertungen abgeben.</p>
         </div>
         <div class="col-lg-6">
           <img :src="`${assetBase}hero.jpg`" alt="Studentin mit Rucksack blickt in den Himmel" class="hero-image">
